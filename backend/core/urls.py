@@ -21,6 +21,7 @@ from django.views.generic import TemplateView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('example.urls')),
+    path('clients/', include('tech_task.urls'))
 ]
 
 if not settings.DEBUG:
