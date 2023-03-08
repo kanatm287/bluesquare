@@ -9,19 +9,55 @@
     <form action="/clients/" method="post">
       {% csrf_token %}
       {{ form }}
-{#      {% if form.full_name.required and form.gender and form.birth_date and form.address %}#}
-        <button type="submit">
-          Save
-        </button>
-{#      {% endif %}#}
+      {#      {% if form.full_name.required and form.gender and form.birth_date and form.address %}#}
+      <button type="submit">
+        Save
+      </button>
+      {#      {% endif %}#}
     </form>
-    <ul>
+    <table>
+      <thead>
+      <tr>
+        <th>Full name</th>
+        <th>Gender</th>
+        <th>Birth date</th>
+        <th>Address</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
       {% for client in clients %}
-        <li>
-          Client: <a href="{% url "client-detail" client.id %}">{{ client.full_name }}</a>
-        </li>
+        <tr>
+        <td>
+          <a href="{% url "client-detail" client.id %}">{{ client.full_name }}</a>
+        </td>
+        <td>{{ client.birth_date }}</td>
+        <td>
+          {% if client.gender == 'M' %}
+            Male
+          {% elif client.gender == 'F' %}
+            Female
+          {% else %}
+            Unknown
+          {% endif %}
+        </td>
+        <td>{{ client.address }}</td>
+        <td>
+          <button>
+            Delete
+          </button>
+        </td>
       {% endfor %}
-    </ul>
-    <p>Total clients: {{ total_clients }}</p>
+      </tbody>
+      <tfoot>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>Total clients:</td>
+        <td>{{ total_clients }}</td>
+      </tr>
+      </tfoot>
+    </table>
   </div>
 {% endblock %}

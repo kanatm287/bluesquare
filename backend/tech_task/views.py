@@ -4,7 +4,7 @@ from django.views import View
 from django.views.generic.base import TemplateView
 from django.views.generic import ListView
 
-from .models import Client
+from .models import Client, Insurance
 from .forms import ClientFrom
 
 
@@ -44,16 +44,9 @@ class ClientView(TemplateView):
         context = super().get_context_data(**kwargs)
         client_id = kwargs['client_id']
         selected_client = get_object_or_404(Client, pk=client_id)
+        client_insurances = Insurance.objects.filter(client_id=client_id)
         context['client'] = selected_client
+        context['insurances'] = client_insurances
         return context
 
 
-# def client(request, client_id):
-#     client = get_object_or_404(Client, pk=client_id)
-#     return render(request, 'clients/client.html', {
-#         'full_name': client.full_name,
-#         'birth_date': client.birth_date,
-#         'gender': client.gender,
-#         'address': client.address,
-#         'insurance_id': client.insurance_id
-#     })
