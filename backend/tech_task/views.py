@@ -1,14 +1,20 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
 from datetime import date
+from .models import Clients
 
 
 # Create your views here.
 
 
 def clients(request):
-    return HttpResponse("Clients")
+    clients = Clients.objects.all()
+    total_clients = clients.count()
+    return render(request, 'clients/index.html', {
+        'clients': clients,
+        'total_clients': total_clients
+    })
 
 
 def new_client(request):
@@ -22,4 +28,11 @@ def delete_client(request):
 
 
 def client(request, client_id):
-    return HttpResponse("Client " + str(client_id))
+    client = get_object_or_404(Clients, pk=client_id)
+    return render(request, 'clients/client.html', {
+        'full_name': client.full_name,
+        'birth_date': client.birth_date,
+        'gender': client.gender,
+        'address': client.address,
+        'insurance_id': client.insurance_id
+    })

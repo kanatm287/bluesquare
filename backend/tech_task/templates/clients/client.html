@@ -1,0 +1,21 @@
+{% extends "clients/base.html" %}
+
+{% block title %}
+  {{ title }}
+{% endblock %}
+
+{% block content %}
+  <h1>{{ title }}</h1>
+  <h2>{{ full_name }}</h2>
+  <p>Client brith date is {{ birth_date }}
+    {% if gender == 'M' %}
+      gender is male
+    {% elif gender == 'F' %}
+      gender is female
+    {% else %}
+      gender is unknown
+    {% endif %}
+    address is {{ address }}
+    insurance-id is {{ insurance_id }}
+  </p>
+{% endblock %}

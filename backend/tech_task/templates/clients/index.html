@@ -1,0 +1,16 @@
+{% extends "clients/base.html" %}
+
+{% block title %}
+  All clients
+{% endblock %}
+
+{% block content %}
+  <ul>
+    {% for client in clients %}
+      <li>
+         Client: <a href="{% url "client-detail" client.id %}">{{ client.full_name }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+  <p>Total clients: {{ total_clients }}</p>
+{% endblock %}
