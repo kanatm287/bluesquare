@@ -14,7 +14,7 @@ class Gender(models.TextChoices):
     UN_DECIDED = 'U', 'undecided'
 
 
-class Clients(models.Model):
+class Client(models.Model):
     full_name = models.CharField(max_length=30,
                                  blank=False)
     gender = models.CharField(max_length=1,
@@ -22,17 +22,39 @@ class Clients(models.Model):
     birth_date = models.DateField(blank=False)
     address = models.CharField(max_length=100,
                                blank=False)
-    insurance_id = models.IntegerField(blank=False,
-                                       unique=True)
 
     def __str__(self):
         return f"Full-name: {self.full_name}, Gender: {self.gender}, Birth-date: {self.birth_date}, " \
-               f"Address: {self.address}, Insurance-id: {self.insurance_id}"
+               f"Address: {self.address}"
 
     class Meta:
         constraints = [
             models.CheckConstraint(
                 name="%(app_label)s_%(class)s_genders_valid",
                 check=models.Q(gender__in=Gender.values),
+            )
+        ]
+
+
+class InsuranceType(models.TextChoices):
+    LIFE = 'L', 'life-insurance'
+    MEDICAL = 'M', 'medical-insurance'
+    AUTO = 'A', 'auto-insurance'
+
+
+class Insurance(models.Model):
+    insurance_id = models.IntegerField(blank=False,
+                                       unique=True)
+    insurance_type = models.CharField(max_length=1,
+                                      choices=InsuranceType.choices)
+    start_date = models.DateField(blank=False)
+    end_date = models.DateField(blank=False)
+    client = models.ForeignKey(Client, on_delete=models.CASCADE)
+
+    class Meta:
+        constraints = [
+            models.CheckConstraint(
+                name="%(app_label)s_%(class)s_insurance_type_valid",
+                check=models.Q(insurance_type__in=InsuranceType.values),
             )
         ]
