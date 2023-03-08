@@ -5,12 +5,23 @@
 {% endblock %}
 
 {% block content %}
-  <ul>
-    {% for client in clients %}
-      <li>
-         Client: <a href="{% url "client-detail" client.id %}">{{ client.full_name }}</a>
-      </li>
-    {% endfor %}
-  </ul>
-  <p>Total clients: {{ total_clients }}</p>
+  <div>
+    <form action="/clients/" method="post">
+      {% csrf_token %}
+      {{ form }}
+{#      {% if form.full_name.required and form.gender and form.birth_date and form.address %}#}
+        <button type="submit">
+          Save
+        </button>
+{#      {% endif %}#}
+    </form>
+    <ul>
+      {% for client in clients %}
+        <li>
+          Client: <a href="{% url "client-detail" client.id %}">{{ client.full_name }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+    <p>Total clients: {{ total_clients }}</p>
+  </div>
 {% endblock %}
