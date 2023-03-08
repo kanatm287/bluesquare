@@ -13,11 +13,12 @@ def clients(request):
     if request.method == 'POST':
         form = ClientFrom(request.POST)
         if form.is_valid():
-            client = Client(full_name=form.cleaned_data['full_name'],
-                            gender=form.cleaned_data['gender'],
-                            birth_date=form.cleaned_data['birth_date'],
-                            address=form.cleaned_data['address'])
-            client.save()
+            # client = Client(full_name=form.cleaned_data['full_name'],
+            #                 gender=form.cleaned_data['gender'],
+            #                 birth_date=form.cleaned_data['birth_date'],
+            #                 address=form.cleaned_data['address'])
+            # client.save()
+            form.save()
     else:
         form = ClientFrom()
     clients = Client.objects.all()
@@ -27,12 +28,6 @@ def clients(request):
         'clients': clients,
         'total_clients': total_clients
     })
-
-
-def new_client(request):
-    # myself = Clients(full_name="Kanat Mergenbayev", gender="male", birth_date=date.today(),
-    #                  address="my adress", insurance_id=123456789)
-    return HttpResponse("New client")
 
 
 def delete_client(request):
