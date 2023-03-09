@@ -1,0 +1,60 @@
+{% extends "clients/base.html" %}
+
+{% block title %}
+  All clients
+{% endblock %}
+
+{% block content %}
+  <div>
+    <form id="clients" action="/clients/" method="post">
+      {% csrf_token %}
+      {{ form }}
+      <input form="clients" class="btn btn-primary" type="submit" value="Save">
+    </form>
+    <table>
+      <thead>
+      <tr>
+        <th>Full name</th>
+        <th>Gender</th>
+        <th>Birth date</th>
+        <th>Address</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for client in clients %}
+        <form id="client-id{{ client.id }}" action="/clients/delete/{{ client.id }}" method="post">
+          {% csrf_token %}
+        </form>
+        <tr>
+        <td>
+          <a href="{% url "client-detail" client.id %}">{{ client.full_name }}</a>
+        </td>
+        <td>{{ client.birth_date }}</td>
+        <td>
+          {% if client.gender == 'M' %}
+            Male
+          {% elif client.gender == 'F' %}
+            Female
+          {% else %}
+            Unknown
+          {% endif %}
+        </td>
+        <td>{{ client.address }}</td>
+        <td>
+          <input form="client-id{{ client.id }}" class="btn btn-primary" type="submit" value="Delete">
+        </td>
+      {% endfor %}
+      </tbody>
+      <tfoot>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>Total clients:</td>
+        <td>{{ total_clients }}</td>
+      </tr>
+      </tfoot>
+    </table>
+  </div>
+{% endblock %}
