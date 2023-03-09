@@ -24,8 +24,7 @@ class Client(models.Model):
                                blank=False)
 
     def __str__(self):
-        return f"Full-name: {self.full_name}, Gender: {self.gender}, Birth-date: {self.birth_date}, " \
-               f"Address: {self.address}"
+        return f"Full-name: {self.full_name}"
 
     class Meta:
         constraints = [

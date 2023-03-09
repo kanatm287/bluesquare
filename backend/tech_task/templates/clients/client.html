@@ -5,8 +5,18 @@
 {% endblock %}
 
 {% block content %}
+  <h1>
+    <a href="{% url "clients" %}">
+      Home
+    </a>
+  </h1>
   <h1>{{ client.title }}</h1>
   <h2>{{ client.full_name }}</h2>
+  <form id="client" action="/clients/insurance/new" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input form="client" class="btn btn-primary" type="submit" value="Save">
+  </form>
   <table>
     <tr>
       <th>Insurance number</th>
@@ -16,6 +26,9 @@
       <th></th>
     </tr>
     {% for insurance in insurances %}
+      <form id="insurance-id{{ insurance.id }}" action="/clients/insurance/delete/{{ insurance.id }}" method="post">
+        {% csrf_token %}
+      </form>
       <tr>
         <td>{{ insurance.insurance_id }}</td>
         <td>
@@ -30,9 +43,9 @@
         <td>{{ insurance.start_date }}</td>
         <td>{{ insurance.end_date }}</td>
         <td>
-          <button>
-            Delete
-          </button>
+          <div class="form-group">
+            <input form="insurance-id{{ insurance.id }}" class="btn btn-primary" type="submit" value="Delete">
+          </div>
         </td>
       </tr>
     {% endfor %}
