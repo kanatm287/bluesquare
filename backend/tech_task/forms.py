@@ -1,4 +1,6 @@
 from django import forms
+from django.forms import TextInput, Select, DateInput
+
 from .models import Client, Insurance
 
 
@@ -11,6 +13,24 @@ class ClientForm(forms.ModelForm):
             'gender': 'Gender',
             'birth_date': 'Birth date',
             'address': 'Address'
+        }
+        widgets = {
+            'full_name': TextInput(attrs={
+                'class': "form-control",
+                'placeholder': 'Full name'
+            }),
+            'gender': Select(attrs={
+                'class': "form-control",
+                'placeholder': 'Gender'
+            }),
+            'birth_date': DateInput(attrs={
+                'class': "form-control",
+                'placeholder': 'Birth date'
+            }),
+            'address': TextInput(attrs={
+                'class': "form-control",
+                'placeholder': 'Address'
+            })
         }
 
 
