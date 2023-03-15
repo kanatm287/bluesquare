@@ -61,6 +61,16 @@ class InsuranceView(View):
             form.save()
             client_id = form.cleaned_data['client'].id
             return redirect('client-detail', client_id=client_id)
+        else:
+            client = form.cleaned_data['client']
+            insurances = Insurance.objects.filter(client_id=client.id)
+            total_insurances = insurances.count()
+            return render(request, 'clients/client.html', {
+                'form': form,
+                'client': client,
+                'insurances': insurances,
+                'total_insurances': total_insurances
+            })
 
 
 class InsuranceDeleteView(View):

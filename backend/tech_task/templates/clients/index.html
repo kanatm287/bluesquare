@@ -12,7 +12,6 @@
           <h3>New client</h3>
           <form id="clients" action="/clients/" method="post">
             {% csrf_token %}
-            {#            {{ form }}#}
             <div>
               {{ form.full_name }}
             </div>
@@ -30,52 +29,54 @@
         </div>
       </div>
       <div class="col-75">
-        <table id="clients">
-          <thead>
-          <tr>
-            <th>Full name</th>
-            <th>Gender</th>
-            <th>Birth date</th>
-            <th>Address</th>
-            <th></th>
-          </tr>
-          </thead>
-          <tbody>
-          {% for client in clients %}
-            <form id="client-id{{ client.id }}" action="/clients/delete/{{ client.id }}" method="post">
-              {% csrf_token %}
-            </form>
+        <div class="container">
+          <table id="clients">
+            <thead>
             <tr>
-              <td>
-                <a href="{% url "client-detail" client.id %}">{{ client.full_name }}</a>
-              </td>
-              <td>{{ client.birth_date }}</td>
-              <td>
-                {% if client.gender == 'M' %}
-                  Male
-                {% elif client.gender == 'F' %}
-                  Female
-                {% else %}
-                  Unknown
-                {% endif %}
-              </td>
-              <td>{{ client.address }}</td>
-              <td>
-                <input form="client-id{{ client.id }}" class="btn btn-primary" type="submit" value="Delete">
-              </td>
+              <th>Full name</th>
+              <th>Gender</th>
+              <th>Birth date</th>
+              <th>Address</th>
+              <th></th>
             </tr>
-          {% endfor %}
-          </tbody>
-          <tfoot>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>Total clients:</td>
-            <td>{{ total_clients }}</td>
-          </tr>
-          </tfoot>
-        </table>
+            </thead>
+            <tbody>
+            {% for client in clients %}
+              <form id="client-id{{ client.id }}" action="/clients/delete/{{ client.id }}" method="post">
+                {% csrf_token %}
+              </form>
+              <tr>
+                <td>
+                  <a href="{% url "client-detail" client.id %}">{{ client.full_name }}</a>
+                </td>
+                <td>{{ client.birth_date }}</td>
+                <td>
+                  {% if client.gender == 'M' %}
+                    Male
+                  {% elif client.gender == 'F' %}
+                    Female
+                  {% else %}
+                    Unknown
+                  {% endif %}
+                </td>
+                <td>{{ client.address }}</td>
+                <td>
+                  <input id="delete" form="client-id{{ client.id }}" class="btn btn-primary" type="submit" value="Delete">
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+            <tfoot>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>Total clients:</td>
+              <td>{{ total_clients }}</td>
+            </tr>
+            </tfoot>
+          </table>
+        </div>
       </div>
     </div>
   </div>

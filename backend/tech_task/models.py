@@ -1,3 +1,4 @@
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.core.exceptions import ValidationError
 
@@ -42,8 +43,9 @@ class InsuranceType(models.TextChoices):
 
 
 class Insurance(models.Model):
-    insurance_id = models.IntegerField(blank=False,
-                                       unique=True)
+    insurance_id = models.PositiveIntegerField(blank=False,
+                                               unique=True,
+                                               validators=[MinValueValidator(1000000), MaxValueValidator(9999999)])
     insurance_type = models.CharField(max_length=1,
                                       choices=InsuranceType.choices)
     start_date = models.DateField(blank=False)

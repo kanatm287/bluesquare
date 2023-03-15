@@ -6,51 +6,70 @@
 
 {% block content %}
   <h1>
-    <a href="{% url "clients" %}">
-      Home
-    </a>
+    <a href="{% url "clients" %}">Home</a>
+    Client: {{ client.full_name }}
   </h1>
-  <h1>{{ client.title }}</h1>
-  <h2>{{ client.full_name }}</h2>
-  <form id="client" action="/clients/insurance/new" method="post">
-    {% csrf_token %}
-    {{ form }}
-    <input form="client" class="btn btn-primary" type="submit" value="Save">
-  </form>
-  <table>
-    <tr>
-      <th>Insurance number</th>
-      <th>Insurance type</th>
-      <th>Start date</th>
-      <th>End date</th>
-      <th></th>
-    </tr>
-    {% for insurance in insurances %}
-      <form id="insurance-id{{ insurance.id }}" action="/clients/insurance/delete/{{ insurance.id }}" method="post">
-        {% csrf_token %}
-      </form>
-      <tr>
-        <td>{{ insurance.insurance_id }}</td>
-        <td>
-          {% if insurance.insurance_type == 'L' %}
-            life-insurance
-          {% elif insurance.insurance_type == 'M' %}
-            medical-insurance
-          {% else %}
-            auto-insurance
-          {% endif %}
-        </td>
-        <td>{{ insurance.start_date }}</td>
-        <td>{{ insurance.end_date }}</td>
-        <td>
-          <div class="form-group">
-            <input form="insurance-id{{ insurance.id }}" class="btn btn-primary" type="submit" value="Delete">
-          </div>
-        </td>
-      </tr>
-    {% endfor %}
-  </table>
-  <ul>
-
-  </ul>
+  <div class="row">
+    <div class="col-25">
+      <div class="container">
+        <form id="client" action="/clients/insurance/new" method="post">
+          {% csrf_token %}
+          {{ form }}
+          <input form="client" class="btn btn-primary" type="submit" value="Save">
+        </form>
+      </div>
+    </div>
+    <div class="col-75">
+      <div class="container">
+        <table id="clients">
+          <thead>
+          <tr>
+            <th>Insurance number</th>
+            <th>Insurance type</th>
+            <th>Start date</th>
+            <th>End date</th>
+            <th></th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for insurance in insurances %}
+            <form id="insurance-id{{ insurance.id }}" action="/clients/insurance/delete/{{ insurance.id }}"
+                  method="post">
+              {% csrf_token %}
+            </form>
+            <tr>
+              <td>{{ insurance.insurance_id }}</td>
+              <td>
+                {% if insurance.insurance_type == 'L' %}
+                  life-insurance
+                {% elif insurance.insurance_type == 'M' %}
+                  medical-insurance
+                {% else %}
+                  auto-insurance
+                {% endif %}
+              </td>
+              <td>{{ insurance.start_date }}</td>
+              <td>{{ insurance.end_date }}</td>
+              <td>
+                <div class="form-group">
+                  <input id="delete" form="insurance-id{{ insurance.id }}" class="btn btn-primary" type="submit"
+                         value="Delete">
+                </div>
+              </td>
+            </tr>
+          {% endfor %}
+          </tbody>
+          <tfoot>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>Total insurances:</td>
+            <td>{{ total_insurances }}</td>
+          </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
 {% endblock %}
